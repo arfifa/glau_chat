@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "954971599304",
+    "firebase_url": "https://glauchat.firebaseio.com",
+    "project_id": "glauchat",
+    "storage_bucket": "glauchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954971599304:android:5d75342e4bdcf3758c10fd",
+        "android_client_info": {
+          "package_name": "com.glauchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954971599304-iap4765lbqukfheaqnk41kj589ijsbao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7AbboN8sepMPupCGiolLcQXDPGSC_9_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954971599304-iap4765lbqukfheaqnk41kj589ijsbao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
