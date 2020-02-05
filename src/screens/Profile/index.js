@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { View, Image, StyleSheet, Dimensions, Text, Alert } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Image, StyleSheet, Dimensions, Text, Alert, TouchableOpacity, PermissionsAndroid, ToastAndroid } from 'react-native';
 import { Item, Input, Label } from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconA from 'react-native-vector-icons/AntDesign';
+import IconI from 'react-native-vector-icons/Ionicons';
 import firebase from 'react-native-firebase';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import LoadingScreen from '../../components/LoadingScreen';
 
@@ -19,8 +21,9 @@ class Profile extends Component {
       fullname_users: '',
       photo_users: '',
       info_users: '',
+      uid_users: '',
       isLoading: false
-    };
+    }
   }
 
   componentDidMount() {
@@ -38,11 +41,81 @@ class Profile extends Component {
           fullname_users: item.fullname_users,
           photo_users: item.photo_users,
           info_users: item.info_users,
+          uid_users: item.uid_users,
           isLoading: false
         })
       })
       .catch(error => Alert.alert(error.messages))
   }
+
+  requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      ]);
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  };
+
+  _ChangeProfileImage = async type => {
+    const Blob = RNFetchBlob.polyfill.Blob;
+    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+    window.Blob = Blob;
+
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+      mediaType: 'photo',
+    };
+
+    let cameraPermission =
+      (await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA)) &&
+      PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      ) &&
+      PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      );
+    if (!cameraPermission) {
+      cameraPermission = await this.requestCameraPermission();
+    } else {
+      ImagePicker.showImagePicker(options, response => {
+        if (response.didCancel) {
+          ToastAndroid.show('You cancelled image picker', ToastAndroid.LONG);
+        } else if (response.error) {
+          ToastAndroid.show(response.error, ToastAndroid.LONG);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          ToastAndroid.show('loading...', ToastAndroid.LONG);
+          const imageRef = firebase
+            .storage()
+            .ref('profilePhotos/' + this.state.uid_users)
+            .child('photo');
+          imageRef
+            .putFile(response.path)
+            .then(data => {
+              ToastAndroid.show('Upload success', ToastAndroid.LONG);
+              firebase
+                .database()
+                .ref('users/' + this.state.uid_users)
+                .update({ photo_users: data.downloadURL });
+              this.setState({ photo_users: data.downloadURL });
+            })
+
+            .catch(err => console.log(err));
+        }
+      });
+    }
+  };
 
 
   signOutUser = () => {
@@ -51,7 +124,7 @@ class Profile extends Component {
       .database()
       .ref('users/' + uid)
       .update({
-        online: "false",
+        online: false,
       })
       .then(response => {
         firebase
@@ -112,6 +185,10 @@ class Profile extends Component {
                     width: '100%', height: '100%', borderBottomLeftRadius: 40,
                     borderBottomRightRadius: 40
                   }} />
+                  <TouchableOpacity style={styles.editFoto}
+                    onPress={this._ChangeProfileImage}>
+                    <IconI name="md-camera" size={45} color="#A7BF2E" />
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.containerBio}>
@@ -192,6 +269,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40
+  },
+  editFoto: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: -6
   },
   containerBio: {
     alignSelf: 'flex-start',

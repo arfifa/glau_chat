@@ -8,6 +8,7 @@ import EditProfile from './Profile/EditProfile';
 import ChatPage from './ChatPage';
 import AddContact from './AddContact';
 import FriendLocation from './FriendLocation';
+import FriendProfile from './FriendProfile';
 
 export {
   SplashScreen,
@@ -19,5 +20,6 @@ export {
   ChatPage,
   EditProfile,
   AddContact,
-  FriendLocation
+  FriendLocation,
+  FriendProfile
 }

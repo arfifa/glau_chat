@@ -15,7 +15,8 @@ import {
   EditProfile,
   ChatPage,
   AddContact,
-  FriendLocation
+  FriendLocation,
+  FriendProfile
 } from '../screens/index';
 
 const AuthNavigationStack = createStackNavigator(
@@ -28,6 +29,32 @@ const AuthNavigationStack = createStackNavigator(
     initialRouteName: 'Login'
   }
 )
+
+const ProfileNavigationStack = createStackNavigator(
+  {
+    Profile,
+    EditProfile
+  },
+  {
+    headerMode: 'none',
+    initialRouteName: 'Profile'
+  }
+)
+
+ProfileNavigationStack.navigationOptions = ({ navigation }) => {
+
+  let tabBarVisible = true;
+
+  let routeName = navigation.state.routes[navigation.state.index].routeName
+
+  if (routeName == 'EditProfile') {
+    tabBarVisible = false
+  }
+
+  return {
+    tabBarVisible,
+  }
+}
 
 const BottomNavigationStack = createBottomTabNavigator(
   {
@@ -59,7 +86,7 @@ const BottomNavigationStack = createBottomTabNavigator(
       },
     },
     Profile: {
-      screen: Profile,
+      screen: ProfileNavigationStack,
       navigationOptions: {
         tabBarLabel: 'PROFILE',
         tabBarIcon: ({ tintColor }) => (
@@ -82,7 +109,6 @@ const BottomNavigationStack = createBottomTabNavigator(
         paddingTop: 5,
         paddingBottom: 10,
         height: 70,
-        position: 'absolute',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10
       },
@@ -94,8 +120,8 @@ const AppNavigationStack = createStackNavigator(
   {
     BottomNavigationStack,
     ChatPage,
-    EditProfile,
-    AddContact
+    AddContact,
+    FriendProfile
   },
   {
     headerMode: 'none',

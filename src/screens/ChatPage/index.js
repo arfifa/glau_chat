@@ -160,7 +160,7 @@ class ChatPage extends Component {
                       </View>
                       <View>
                         <Text style={styles.textName}>{this.state.friend_data.fullname_users}</Text>
-                        {this.state.friend_data.status ? (
+                        {this.state.friend_data.online ? (
                           <Text style={styles.textStatusOn}>online</Text>
                         ) : (
                             <Text style={styles.textStatusOff}>offline</Text>

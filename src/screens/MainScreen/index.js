@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { View, Image, StatusBar, StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Item, Input, Button } from 'native-base';
+import { Input } from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
 import firebase from 'react-native-firebase';
+
+import LoadingScreen from '../../components/LoadingScreen';
 
 const height = Dimensions.get('window').height / 5;
 const width = Dimensions.get('window').width;
@@ -14,14 +15,14 @@ class MainScreen extends Component {
     super(props)
     this.state = {
       userList: [],
-      refreshing: false,
+      isLoading: false,
       uid: ''
     }
   }
 
   componentDidMount = async () => {
     const uid = firebase.auth().currentUser.uid;
-    this.setState({ uid: uid, refreshing: true });
+    this.setState({ uid: uid, isLoading: true });
     await firebase
       .database()
       .ref('/users')
@@ -30,55 +31,67 @@ class MainScreen extends Component {
         if (person.uid_users != uid) {
           this.setState(prevData => {
             return { userList: [...prevData.userList, person] };
-          });
-          this.setState({ refreshing: false });
+          })
         }
-      });
+        setTimeout(
+          function () {
+            this.setState({ isLoading: false });
+          }.bind(this),
+          2000,
+        );
+      })
   }
 
   render() {
     const { userList } = this.state
-    return (
-      <>
-        <View style={styles.root}>
-          <StatusBar backgroundColor="#2F2D32" />
-          <View style={styles.containerHeader}>
-            <View style={styles.headerTitleMenu}>
-              <Text style={styles.textTitle}>Your Chat</Text>
-              <Icon name="dots-vertical" size={25} color="#2F2D32" />
+    if (this.state.isLoading) {
+      return (
+        <LoadingScreen />
+      )
+    } else {
+      return (
+        <>
+          <View style={styles.root}>
+            <StatusBar backgroundColor="#2F2D32" />
+            <View style={styles.containerHeader}>
+              <View style={styles.headerTitleMenu}>
+                <Text style={styles.textTitle}>Your Chat</Text>
+                <Icon name="dots-vertical" size={25} color="#2F2D32" />
+              </View>
+              <View style={styles.seacrhBar}>
+                <IconI name="ios-search" size={25} color="#2F2D32" style={styles.iconSearch} />
+                <Input placeholder="Search" />
+              </View>
             </View>
-            <View style={styles.seacrhBar}>
-              <IconI name="ios-search" size={25} color="#2F2D32" style={styles.iconSearch} />
-              <Input placeholder="Search" />
+            <View style={styles.containerBody}>
+              <FlatList
+                data={userList}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={styles.listChat}
+                    onPress={() => this.props.navigation.navigate('ChatPage', { uid_friend: item.uid_users })}>
+                    <View style={styles.containerLeft}>
+                      <TouchableOpacity style={styles.profilePic}
+                        onPress={() => this.props.navigation.navigate('FriendProfile', { item })}>
+                        <Image source={{ uri: item.photo_users }} style={styles.photo} />
+                      </TouchableOpacity>
+                      <View>
+                        <Text style={styles.personName}>{item.fullname_users}</Text>
+                        <Text style={styles.personInfo}>{item.info_users}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.containerRight}>
+                      <Text style={styles.textDate}>01/01/2020</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                keyExtractor={item => item.uid_users}
+              />
             </View>
           </View>
-          <View style={styles.containerBody}>
-            <FlatList
-              data={userList}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.listChat}
-                  onPress={() => this.props.navigation.navigate('ChatPage', { uid_friend: item.uid_users })}>
-                  <View style={styles.containerLeft}>
-                    <View style={styles.profilePic}>
-                      <Image source={{ uri: item.photo_users }} style={styles.photo} />
-                    </View>
-                    <View>
-                      <Text style={styles.personName}>{item.fullname_users}</Text>
-                      <Text style={styles.personInfo}>{item.info_users}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.containerRight}>
-                    <Text style={styles.textDate}>01/01/2020</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-              keyExtractor={item => item.uid_users}
-            />
-          </View>
-        </View>
-      </>
-    )
+        </>
+      )
+    }
   }
 }
 
@@ -127,8 +140,7 @@ const styles = StyleSheet.create({
     width: width,
     borderWidth: 1,
     borderColor: 'transparent',
-    marginBottom: -30,
-    paddingBottom: 100
+    paddingBottom: 10
   },
   profilePic: {
     height: 50,
@@ -162,12 +174,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   personName: {
-    fontSize: 16,
-    color: '#1f1f1f'
+    fontSize: 18,
+    color: '#2F2D32'
   },
-  personChat: {
-    color: '#1f1f1f',
-    fontSize: 16
+  personInfo: {
+    color: '#A7BF2E',
+    fontSize: 12
   },
   textDate: {
     color: '#88838F',

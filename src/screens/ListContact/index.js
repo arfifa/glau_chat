@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { View, Image, StatusBar, StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Item, Input, Button } from 'native-base';
+import { View, StyleSheet, Dimensions, Text, FlatList, TouchableOpacity } from 'react-native'
+import { Input } from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconI from 'react-native-vector-icons/Ionicons';
 
@@ -133,9 +132,7 @@ const styles = StyleSheet.create({
     width: width,
     borderWidth: 1,
     borderColor: 'transparent',
-    marginBottom: -30,
-    position: 'relative',
-    paddingBottom: 100
+    paddingBottom: 5
   },
   profilePic: {
     height: 50,
@@ -189,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     position: 'absolute',
-    bottom: 120,
+    bottom: 10,
     right: 20
   }
 });

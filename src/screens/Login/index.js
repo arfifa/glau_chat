@@ -124,7 +124,7 @@ class Login extends Component {
               .database()
               .ref('users/' + response.user.uid)
               .update({
-                online: 'true',
+                online: true,
                 latitude: this.state.latitude,
                 longitude: this.state.longitude
               });

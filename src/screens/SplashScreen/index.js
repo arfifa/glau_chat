@@ -11,19 +11,19 @@ class SplashScreen extends Component {
       if (currentUser === null) {
         setTimeout(() => {
           this.props.navigation.navigate('Login')
-        }, 5000)
+        }, 3000)
       } else {
         const { uid } = currentUser
         firebase
           .database()
           .ref('users/' + uid)
           .update({
-            online: 'true',
+            online: true,
           })
           .then(data => {
             setTimeout(() => {
               this.props.navigation.navigate('Home')
-            }, 5000)
+            }, 3000)
           })
           .catch(error => {
             Alert.alert(error.message)
@@ -43,7 +43,7 @@ class SplashScreen extends Component {
       )
       setTimeout(() => {
         this.props.navigation.navigate('Login')
-      }, 5000)
+      }, 3000)
     }
   }
 
