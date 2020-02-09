@@ -14,7 +14,7 @@ Fodel is an Online Food Delivery Mobile App built using React Native Framework a
 ## Screenshots
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/46930178/74031195-70f91f80-49e3-11ea-8cbf-f597b73d538a.png" width="220">
+<img src="https://raw.githubusercontent.com/arfifa/glau_chat/src/assets/images/screenShootApp/Chat.png" width="220">
 <img src="https://user-images.githubusercontent.com/46930178/74031201-735b7980-49e3-11ea-95fa-97f22f36efd3.png" width="220">
 <img src="https://user-images.githubusercontent.com/46930178/74031203-73f41000-49e3-11ea-8db6-73d7e6b96fac.png" width="220">
 <img src="https://user-images.githubusercontent.com/46930178/74031207-748ca680-49e3-11ea-8cba-6f9a5b604882.png" width="220">
