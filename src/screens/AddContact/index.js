@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import {
-  View, Image, StatusBar, StyleSheet, Dimensions, Text, Alert, PermissionsAndroid, ToastAndroid
+  View, StatusBar, StyleSheet, Dimensions, Text, Alert
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Item, Input } from 'native-base';
-import LinearGradient from 'react-native-linear-gradient';
 import firebase from 'react-native-firebase';
-import Geolocation from 'react-native-geolocation-service';
 
 import LoadingScreen from '../../components/LoadingScreen';
 
@@ -104,9 +102,9 @@ class AddContact extends Component {
           <StatusBar hidden />
           <View style={styles.root}>
             <View style={styles.container}>
-              <View style={styles.containerBackRegister} />
-              <View style={styles.containerRegister}>
-                <Text style={styles.textRegister}>ADD CONTACT</Text>
+              <View style={styles.containerBackSearch} />
+              <View style={styles.containerSearch}>
+                <Text style={styles.textSearch}>ADD CONTACT</Text>
                 <Item>
                   <Input
                     placeholder="email"
@@ -115,9 +113,9 @@ class AddContact extends Component {
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email} />
                 </Item>
-                <TouchableOpacity style={styles.btnRegister}
+                <TouchableOpacity style={styles.btnSearch}
                   onPress={this.signUpButtonPress}>
-                  <Text style={styles.textBtnRegister}>Search</Text>
+                  <Text style={styles.textBtnSearch}>Search</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -142,13 +140,13 @@ const styles = StyleSheet.create({
     height: height,
     position: 'relative',
   },
-  containerBackRegister: {
+  containerBackSearch: {
     width: '75%',
     height: '100%',
     borderRadius: 10,
     backgroundColor: '#88838F'
   },
-  containerRegister: {
+  containerSearch: {
     width: '80%',
     height: '100%',
     top: -10,
@@ -159,34 +157,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10
   },
-  textRegister: {
+  textSearch: {
     fontSize: 20,
     color: '#2F2D32',
     fontWeight: 'bold'
   },
-  containerImage: {
-    width: 160,
-    height: 80,
-    borderWidth: 1,
-    borderColor: '#A7BF2E',
-    borderRadius: 100,
-    backgroundColor: '#F95A37',
-    marginBottom: 20
-  },
-  logoImage: {
-    width: undefined,
-    height: undefined,
-    flex: 1,
-    borderRadius: 100,
-    resizeMode: 'contain',
-  },
-  linkHaveAccount: {
-    marginVertical: 20
-  },
-  textHaveAccount: {
-    color: '#0064D2'
-  },
-  btnRegister: {
+  btnSearch: {
     width: 150,
     height: 45,
     backgroundColor: '#A7BF2E',
@@ -197,7 +173,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20
   },
-  textBtnRegister: {
+  textBtnSearch: {
     color: '#FAFBED',
     fontWeight: 'bold'
   }
