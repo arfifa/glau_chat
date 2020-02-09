@@ -9,19 +9,19 @@
 <a href="https://github.com/arfifa/glau_chat/blob/master/LICENSE"></a>
 </p>
 
-Fodel is an Online Food Delivery Mobile App built using React Native Framework and Integrated with Fodel-API as the Back-End. 
+Glau chat is a chat application created with the React Native and Firebase framework on the backend.
 
 ## Screenshots
 
 <p align="center">
-<img src="https://github.com/arfifa/glau_chat/blob/master/src/assets/images/screenShootApp/Chat.png?raw=true" width="220">
 <img src="https://github.com/arfifa/glau_chat/blob/master/src/assets/images/screenShootApp/Login.png?raw=true" width="220">
+<img src="https://github.com/arfifa/glau_chat/blob/master/src/assets/images/screenShootApp/Chat.png?raw=true" width="220">
 <img src="https://github.com/arfifa/glau_chat/blob/master/src/assets/images/screenShootApp/Map.png?raw=true" width="220">
 <img src="https://github.com/arfifa/glau_chat/blob/master/src/assets/images/screenShootApp/Profile.png?raw=true" width="220">
 </p>
 
 ## Developing
 1. Open your terminal or command prompt
-2. Type `git clone https://github.com/mraffiramdhani/native-fodel.git`
+2. Type `git clone https://github.com/arfifa/glau_chat.git`
 3. Open the project directory and Type `yarn install` to install all dependencies
 4. Type `yarn start` in the terminal or command prompt to run the App
